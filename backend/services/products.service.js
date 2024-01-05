@@ -1,6 +1,7 @@
 const httpStatus = require("http-status");
 const Product = require("../models/product.model");
 const ApiError = require("../utils/ApiError");
+const ApiQueryFeatures = require("../utils/ApiQueryFeatures");
 
 //* Creating a Product in the Database --- ADMIN only Authorization Route.
 const createProduct = async (body) => {
@@ -55,9 +56,13 @@ const getProductDetails = async (productId) => {
   return product;
 };
 
-const getAllProducts = async () => {
+const getAllProducts = async (reqQuery) => {
   try {
-    const productList = await Product.find({});
+    const apiQueryFeatures = new ApiQueryFeatures(
+      Product.find(),
+      reqQuery
+    ).search();
+    const productList = await apiQueryFeatures.mongoQuery;
     return productList;
   } catch (error) {
     throw error;

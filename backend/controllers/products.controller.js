@@ -32,7 +32,7 @@ const getProductDetails = catchAsync(async (req, res) => {
 });
 
 const getAllProducts = catchAsync(async (req, res) => {
-  const productList = await productService.getAllProducts();
+  const productList = await productService.getAllProducts(req.query);
   res.status(httpStatus.OK).json({ success: true, productList });
 });
 

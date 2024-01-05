@@ -6,7 +6,7 @@ const errorHandler = (err, req, res, next) => {
   res.locals.message = err.message;
 
   if (config.env == "development") {
-    console.log(err.statusCode, "ERROR_CODE");
+    console.log(err);
     console.log("From Custom errorHandler");
   }
 
