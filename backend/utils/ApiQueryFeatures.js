@@ -40,6 +40,15 @@ class ApiQueryFeatures {
     this.mongoQuery = this.mongoQuery.find(JSON.parse(reqQuery));
     return this;
   }
+
+  //? Pagination to limit results per page and skip as well..
+  pagination(resultPerPage) {
+    const currentPage = Number(this.reqQuery.page) || 1;
+    const skip = resultPerPage * (currentPage - 1);
+
+    this.mongoQuery = this.mongoQuery.limit(resultPerPage).skip(skip);
+    return this;
+  }
 }
 
 module.exports = ApiQueryFeatures;

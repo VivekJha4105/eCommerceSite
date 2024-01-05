@@ -58,9 +58,13 @@ const getProductDetails = async (productId) => {
 
 const getAllProducts = async (reqQuery) => {
   try {
+    let resultPerPage = 5;
+    const productCount = await Product.countDocuments();
+
     const apiQueryFeatures = new ApiQueryFeatures(Product.find(), reqQuery)
       .search()
-      .filter();
+      .filter()
+      .pagination(resultPerPage);
     const productList = await apiQueryFeatures.mongoQuery;
     return productList;
   } catch (error) {
