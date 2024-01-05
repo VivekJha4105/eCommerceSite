@@ -4,6 +4,7 @@ class ApiQueryFeatures {
     this.reqQuery = reqQuery;
   }
 
+  //? Seraching and filtering results based on the keyword passed
   search() {
     const keyword = this.reqQuery.keyword
       ? {
@@ -16,6 +17,27 @@ class ApiQueryFeatures {
 
     //! WTF is going on in the below line???
     this.mongoQuery = this.mongoQuery.find({ ...keyword });
+    return this;
+  }
+
+  //? Filtering According to Category...
+  filter() {
+    const reqQueryCopy = { ...this.reqQuery };
+    let removedQueries = ["keyword", "page", "limit"];
+    console.log(reqQueryCopy);
+
+    removedQueries.forEach((key) => delete reqQueryCopy[key]);
+
+    //* For Filtering prices we need to pass $ to mongo query..
+    //* Making our query to first String and placing $ where required
+    let reqQueryCopyString = JSON.stringify(reqQueryCopy);
+    let reqQuery = reqQueryCopyString.replace(
+      /\b(gt|gte|lt|lte)\b/g,
+      (key) => `$${key}`
+    );
+    console.log(reqQuery);
+
+    this.mongoQuery = this.mongoQuery.find(JSON.parse(reqQuery));
     return this;
   }
 }

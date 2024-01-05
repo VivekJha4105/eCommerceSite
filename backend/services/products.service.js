@@ -58,10 +58,9 @@ const getProductDetails = async (productId) => {
 
 const getAllProducts = async (reqQuery) => {
   try {
-    const apiQueryFeatures = new ApiQueryFeatures(
-      Product.find(),
-      reqQuery
-    ).search();
+    const apiQueryFeatures = new ApiQueryFeatures(Product.find(), reqQuery)
+      .search()
+      .filter();
     const productList = await apiQueryFeatures.mongoQuery;
     return productList;
   } catch (error) {
