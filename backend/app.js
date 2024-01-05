@@ -18,7 +18,7 @@ app.use(compression());
 app.use(cors());
 app.options("*", cors()); //* enabling CORS pre-flight across-the-board
 
-app.use("/v1", router);
+app.use("/v1/api", router);
 
 //* send back 404 error in case of any unknown API request..
 app.use((req, res, next) => {
