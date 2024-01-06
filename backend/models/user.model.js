@@ -1,7 +1,10 @@
 const httpStatus = require("http-status");
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const ApiError = require("../utils/ApiError");
+const config = require("../config/config");
 
 const userSchema = new mongoose.Schema(
   {
@@ -52,6 +55,25 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+  this.password = await bcrypt.hash(this.password, 10);
+});
+
+userSchema.methods.getJwtToken = function () {
+  const token = jwt.sign({ id: this._id }, config.jwt.secret, {
+    expiresIn: config.jwt.expiresIn,
+  });
+
+  return token;
+};
+
+userSchema.methods.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 const User = mongoose.model("User", userSchema);
 

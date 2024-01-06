@@ -11,6 +11,11 @@ const envVarsSchema = Joi.object()
       .valid("development", "production", "test")
       .required(),
     MONGODB_URL: Joi.string().required().description("MongoDB connection URL"),
+    JWT_SECRET: Joi.string().required(),
+    JWT_EXPIRESIN: Joi.string()
+      .default("1d")
+      .description("Days after which the Token Expires"),
+    COOKIE_EXPIRESIN: Joi.number().required().default(1),
   })
   .unknown();
 
@@ -28,4 +33,9 @@ module.exports = {
   mongoose: {
     url: envVars.MONGODB_URL,
   },
+  jwt: {
+    secret: envVars.JWT_SECRET,
+    expiresIn: envVars.JWT_EXPIRESIN,
+  },
+  cookieExpiresIn: envVars.COOKIE_EXPIRESIN,
 };

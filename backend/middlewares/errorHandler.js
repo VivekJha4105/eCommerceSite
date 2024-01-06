@@ -7,6 +7,7 @@ const errorHandler = (err, req, res, next) => {
 
   if (config.env == "development") {
     console.log(err.statusCode, "StatusCode");
+    console.log(err);
     console.log("From Custom errorHandler");
   }
 
