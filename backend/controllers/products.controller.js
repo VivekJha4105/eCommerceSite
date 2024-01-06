@@ -4,6 +4,7 @@ const productService = require("../services/products.service");
 
 //* Creating a Product in the Database --- ADMIN only Authorization Route.
 const createProduct = catchAsync(async (req, res) => {
+  req.body.user = req.user.id;
   const product = await productService.createProduct(req.body);
   res.status(httpStatus.CREATED).json({ success: true, product });
 });

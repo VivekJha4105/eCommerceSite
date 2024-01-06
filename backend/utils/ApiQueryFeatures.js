@@ -24,7 +24,6 @@ class ApiQueryFeatures {
   filter() {
     const reqQueryCopy = { ...this.reqQuery };
     let removedQueries = ["keyword", "page", "limit"];
-    console.log(reqQueryCopy);
 
     removedQueries.forEach((key) => delete reqQueryCopy[key]);
 
@@ -35,7 +34,6 @@ class ApiQueryFeatures {
       /\b(gt|gte|lt|lte)\b/g,
       (key) => `$${key}`
     );
-    console.log(reqQuery);
 
     this.mongoQuery = this.mongoQuery.find(JSON.parse(reqQuery));
     return this;

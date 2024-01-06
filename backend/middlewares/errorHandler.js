@@ -17,6 +17,24 @@ const errorHandler = (err, req, res, next) => {
     err = new ApiError(httpStatus.BAD_REQUEST, message);
   }
 
+  //* MongoDB duplicate Key Error
+  if (err.code == 11000) {
+    const message = `Duplicate ${Object.keys(err.keyValue)} Entered`;
+    err = new ApiError(httpStatus.BAD_REQUEST, message);
+  }
+
+  //* Invalid JWT Error
+  if (err.name == "JsonWebTokenError") {
+    const message = `Json Web Token is invalid, Try again`;
+    err = new ApiError(httpStatus.BAD_REQUEST, message);
+  }
+
+  //* JWT Expiration Error
+  if (err.name == "TokenExpiredError") {
+    const message = `Json Web Token is Expired, Try again`;
+    err = new ApiError(httpStatus.BAD_REQUEST, message);
+  }
+
   res.status(httpStatus.BAD_REQUEST).json({
     success: false,
     message: err.message,

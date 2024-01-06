@@ -1,4 +1,5 @@
 const httpStatus = require("http-status");
+const crypto = require("crypto");
 
 const catchAsync = require("../utils/catchAsync");
 const userService = require("../services/users.service");
@@ -23,7 +24,34 @@ const loginUser = catchAsync(async (req, res) => {
     .json({ success: true, user, token });
 });
 
+const logoutUser = catchAsync(async (req, res) => {
+  res
+    .status(httpStatus.OK)
+    .cookie("token", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    })
+    .json({ success: true, message: "Logged Out Successfully" });
+});
+
+const forgotPassword = catchAsync(async (req, res) => {
+  await authService.forgotPassword(req.body);
+
+  res.status(httpStatus.OK).json({
+    success: true,
+    message: `Email sent to ${user.email} successfully`,
+  });
+});
+
+const resetPassword = catchAsync(async (req, res) => {
+  const user = await authService.resetPassword(req);
+  res.status(httpStatus.OK).json({ success: true, user });
+});
+
 module.exports = {
   registerUser,
   loginUser,
+  logoutUser,
+  forgotPassword,
+  resetPassword,
 };

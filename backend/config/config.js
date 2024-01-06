@@ -16,6 +16,11 @@ const envVarsSchema = Joi.object()
       .default("1d")
       .description("Days after which the Token Expires"),
     COOKIE_EXPIRESIN: Joi.number().required().default(1),
+    SMPT_SERVICE: Joi.string().default("gmail"),
+    SMPT_EMAIL: Joi.string().description(
+      "Email address from which a mail would be sent"
+    ),
+    SMPT_PASSWORD: Joi.string().description("Password to the above SMPT_EMAIL"),
   })
   .unknown();
 
@@ -38,4 +43,9 @@ module.exports = {
     expiresIn: envVars.JWT_EXPIRESIN,
   },
   cookieExpiresIn: envVars.COOKIE_EXPIRESIN,
+  smpt: {
+    mailService: envVars.SMPT_SERVICE,
+    mailId: envVars.SMPT_EMAIL,
+    mailPassword: envVars.SMPT_PASSWORD,
+  },
 };
