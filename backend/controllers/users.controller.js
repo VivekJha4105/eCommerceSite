@@ -19,8 +19,35 @@ const updateUserProfile = catchAsync(async (req, res) => {
     .json({ success: true, message: "User Profile is updated", user });
 });
 
+//! ADMIN Route
+const getAllUsers = catchAsync(async (req, res) => {
+  const users = await userService.getAllUsers();
+  res.status(httpStatus.OK).json({ success: true, users });
+});
+
+//! ADMIN Route
+const getSingleUser = catchAsync(async (req, res) => {
+  const user = await userService.getSingleUser(req);
+  res.status(httpStatus.OK).json({ success: true, user });
+});
+
+//! ADMIN Route
+const updateUserRole = catchAsync(async (req, res) => {
+  const user = await userService.updateUserRole(req);
+  res.status(httpStatus.OK).json({ success: true, user });
+});
+
+const deleteUser = catchAsync(async (req, res) => {
+  await userService.deleteUser(req);
+  res.status(httpStatus.OK).json({ success: true, message: "User Deleted" });
+});
+
 module.exports = {
   getUserDetails,
   updatePassword,
   updateUserProfile,
+  getAllUsers,
+  getSingleUser,
+  updateUserRole,
+  deleteUser,
 };

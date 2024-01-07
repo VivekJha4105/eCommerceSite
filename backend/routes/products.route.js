@@ -5,18 +5,18 @@ const { isAuthenticated, authorizedRoles } = require("../middlewares/auth");
 
 const router = express.Router();
 
-//* ADMIN Only Route.
+//! ADMIN Only Route.
 router
-  .route("/new")
+  .route("/admin/new")
   .post(
     isAuthenticated,
     authorizedRoles("admin"),
     productController.createProduct
   );
 
-//* ADMIN Only Route.
+//! ADMIN Only Route.
 router
-  .route("/:productId")
+  .route("/admin/:productId")
   .put(
     isAuthenticated,
     authorizedRoles("admin"),
@@ -26,9 +26,12 @@ router
     isAuthenticated,
     authorizedRoles("admin"),
     productController.deleteProduct
-  )
-  .get(productController.getProductDetails);
+  );
 
+//* All access route.
+router.route("/:productId").get(productController.getProductDetails);
+
+//* All access route.
 router.route("/").get(productController.getAllProducts);
 
 module.exports = router;

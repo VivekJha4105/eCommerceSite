@@ -66,9 +66,67 @@ const updateUserProfile = async (req) => {
   return user;
 };
 
+//! ADMIN Route
+const getAllUsers = async () => {
+  const users = await User.find({});
+  return users;
+};
+
+//! ADMIN Route
+const getSingleUser = async (req) => {
+  const user = await User.findById(req.params.userId);
+  if (!user) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      `No User with id: ${req.params.userId}`
+    );
+  }
+  return user;
+};
+
+//! ADMIN Route
+const updateUserRole = async (req) => {
+  const propertiesToUpdate = {
+    email: req.body.email,
+    name: req.body.name,
+    role: req.body.role,
+  };
+
+  //! We will remove, the added Cloudinary to fill up other properties of User, later.
+
+  const user = await User.findByIdAndUpdate(
+    req.params.userId,
+    propertiesToUpdate,
+    {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    }
+  );
+
+  return user;
+};
+
+//! ADMIN Route
+const deleteUser = async (req) => {
+  const user = await User.findById(req.params.userId);
+  if (!user) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      `No User with id: ${req.params.userId}`
+    );
+  }
+  await User.findByIdAndDelete(req.params.userId);
+  return;
+};
+
 module.exports = {
   registerUser,
   getUserDetails,
   updatePassword,
   updateUserProfile,
+  getAllUsers,
+  getSingleUser,
+  updateUserRole,
+  deleteUser,
 };
