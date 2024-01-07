@@ -21,6 +21,14 @@ const registerUser = async (body) => {
   return newUser;
 };
 
+const getUserDetails = async (req) => {
+  const user = await User.findById(req.user.id);
+
+  //* There has to be a User as people who have logged in can only access it.
+  return user;
+};
+
 module.exports = {
   registerUser,
+  getUserDetails,
 };

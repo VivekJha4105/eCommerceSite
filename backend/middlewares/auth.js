@@ -9,14 +9,7 @@ const User = require("../models/user.model");
 const isAuthenticated = catchAsync(async (req, res, next) => {
   const { token } = req.cookies;
   console.log(token, "token");
-  if (!token) {
-    next(
-      new ApiError(
-        httpStatus.UNAUTHORIZED,
-        "Please Login to access this resource."
-      )
-    );
-  }
+
   const payload = jwt.verify(token, config.jwt.secret);
 
   const user = await User.findById(payload.id);

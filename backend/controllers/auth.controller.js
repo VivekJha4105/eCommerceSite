@@ -1,5 +1,4 @@
 const httpStatus = require("http-status");
-const crypto = require("crypto");
 
 const catchAsync = require("../utils/catchAsync");
 const userService = require("../services/users.service");
