@@ -48,8 +48,27 @@ const updatePassword = async (req) => {
   return user;
 };
 
+const updateUserProfile = async (req) => {
+  //! What to do if only one of the fields need to be changed among the below?
+  //* To answer above question -> We will generate a autofill body, with user's name and email, at the frontend to send via this request.
+  //* Client can edit the pre-filled name and email properties as per their desire.
+
+  const propertiesToUpdate = { email: req.body.email, name: req.body.name };
+
+  //! We will add Cloudinary to fill up other properties of User later.
+
+  const user = await User.findByIdAndUpdate(req.user.id, propertiesToUpdate, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  return user;
+};
+
 module.exports = {
   registerUser,
   getUserDetails,
   updatePassword,
+  updateUserProfile,
 };

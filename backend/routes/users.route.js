@@ -11,6 +11,10 @@ router
 
 router
   .route("/password/update")
-  .post(isAuthenticated, userController.updatePassword);
+  .put(isAuthenticated, userController.updatePassword);
+
+router
+  .route("/userProfile/update")
+  .put(isAuthenticated, userController.updateUserProfile);
 
 module.exports = router;

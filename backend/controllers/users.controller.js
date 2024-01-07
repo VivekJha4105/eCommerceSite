@@ -12,7 +12,15 @@ const updatePassword = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ success: true, user });
 });
 
+const updateUserProfile = catchAsync(async (req, res) => {
+  const user = await userService.updateUserProfile(req);
+  res
+    .status(httpStatus.OK)
+    .json({ success: true, message: "User Profile is updated", user });
+});
+
 module.exports = {
   getUserDetails,
   updatePassword,
+  updateUserProfile,
 };
