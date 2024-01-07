@@ -8,7 +8,6 @@ const User = require("../models/user.model");
 
 const isAuthenticated = catchAsync(async (req, res, next) => {
   const { token } = req.cookies;
-  console.log(token, "token");
 
   const payload = jwt.verify(token, config.jwt.secret);
 

@@ -35,7 +35,7 @@ const errorHandler = (err, req, res, next) => {
     err = new ApiError(httpStatus.BAD_REQUEST, message);
   }
 
-  res.status(httpStatus.BAD_REQUEST).json({
+  res.status(err.statusCode).json({
     success: false,
     message: err.message,
     ...(config.env === "development" && { stack: err.stack }),

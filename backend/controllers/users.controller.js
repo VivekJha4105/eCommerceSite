@@ -37,6 +37,7 @@ const updateUserRole = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ success: true, user });
 });
 
+//! ADMIN Route
 const deleteUser = catchAsync(async (req, res) => {
   await userService.deleteUser(req);
   res.status(httpStatus.OK).json({ success: true, message: "User Deleted" });

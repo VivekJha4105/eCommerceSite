@@ -29,6 +29,13 @@ router
   );
 
 //* All access route.
+router
+  .route("/review")
+  .get(productController.getAllReviews)
+  .put(isAuthenticated, productController.createProductReview)
+  .delete(isAuthenticated, productController.deleteReview);
+
+//* All access route.
 router.route("/:productId").get(productController.getProductDetails);
 
 //* All access route.
