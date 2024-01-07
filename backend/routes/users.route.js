@@ -9,4 +9,8 @@ router
   .route("/userProfile")
   .get(isAuthenticated, userController.getUserDetails);
 
+router
+  .route("/password/update")
+  .post(isAuthenticated, userController.updatePassword);
+
 module.exports = router;

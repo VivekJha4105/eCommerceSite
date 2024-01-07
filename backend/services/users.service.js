@@ -28,7 +28,28 @@ const getUserDetails = async (req) => {
   return user;
 };
 
+const updatePassword = async (req) => {
+  const user = await User.findById(req.user.id).select("+password");
+
+  const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+  if (!isPasswordMatched) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Old Password is incorrect.");
+  }
+
+  if (req.body.newPassword !== req.body.confirmPassword) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Password does'nt match");
+  }
+
+  user.password = req.body.newPassword;
+
+  await user.save();
+
+  return user;
+};
+
 module.exports = {
   registerUser,
   getUserDetails,
+  updatePassword,
 };
