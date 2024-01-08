@@ -53,7 +53,7 @@ const orderSchema = new mongoose.Schema({
       },
       //* Reference pointing at the Product in the products collection.
       product: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
         required: true,
       },
@@ -61,7 +61,7 @@ const orderSchema = new mongoose.Schema({
   ],
   //* Reference pointing at the User, ordering it, in the users collection.
   user: {
-    type: mongoose.Schema.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },

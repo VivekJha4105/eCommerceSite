@@ -4,6 +4,8 @@ const httpStatus = require("http-status");
 
 const getUserDetails = catchAsync(async (req, res) => {
   const user = await userService.getUserDetails(req);
+  if (req.user._id == req.user.id)
+    console.log(req.user._id, "Logged In User Id");
   res.status(httpStatus.OK).json({ success: true, user });
 });
 
